@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1k4gt33" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="dpmjson-attributes-learning-process-solution" name="dpmJson attributes Learning process SOLUTION" isExecutable="true" camunda:versionTag="1.0.0">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_037s7n3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="set-process-data" name="Set process data">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="mySpinObj">
+            <camunda:script scriptFormat="javascript">S('{"firstName":"Tom","lastName":"Example","job":"Coding"}')</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="myJsonString">
+            <camunda:script scriptFormat="groovy">'{"firstName":"Tom","lastName":"Example","job":"Coding"}'</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="myMap">
+            <camunda:script scriptFormat="groovy">[
+  firstName:"Tom",
+  lastName:"Example",
+  job:"Coding"
+]</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_037s7n3</bpmn:incoming>
+      <bpmn:outgoing>Flow_05fuic6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_037s7n3" sourceRef="StartEvent_1" targetRef="set-process-data" />
+    <bpmn:sequenceFlow id="Flow_05fuic6" sourceRef="set-process-data" targetRef="task" />
+    <bpmn:endEvent id="Event_0e3dyux">
+      <bpmn:incoming>Flow_0ga4qb8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0ga4qb8" sourceRef="debug" targetRef="Event_0e3dyux" />
+    <bpmn:userTask id="debug" name="Debug">
+      <bpmn:incoming>Flow_1x5h5g4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ga4qb8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="task-3" name="Create new JSON-object with three hierarchical keys and assign value &#34;hello!&#34;" scriptFormat="groovy" camunda:resultVariable="task3">
+      <bpmn:incoming>Flow_00ydmrh</bpmn:incoming>
+      <bpmn:outgoing>Flow_1x5h5g4</bpmn:outgoing>
+      <bpmn:script>def result;
+
+// Your code starts here
+
+result = dpmJson()
+result.one.two.three = "hello!"
+
+// Your code ends here
+
+println("------- TASK 3 -------")
+println(result)
+result</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_1x5h5g4" sourceRef="task-3" targetRef="debug" />
+    <bpmn:sequenceFlow id="Flow_1rf5rnp" sourceRef="task" targetRef="task-2" />
+    <bpmn:scriptTask id="task" name="Get attributes from all three defined maps and put them into a new map" scriptFormat="groovy" camunda:resultVariable="task1">
+      <bpmn:incoming>Flow_05fuic6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rf5rnp</bpmn:outgoing>
+      <bpmn:script>def result;
+
+// Your code starts here
+
+result = dpmJson()
+def spinObj = dpmJson(mySpinObj)
+def jsonString = dpmJson(myJsonString)
+def map = dpmJson(myMap)
+
+result.newFirstName = spinObj.firstName
+result.newLastName = jsonString.lastName
+result.newJob = map.job
+
+// Your code ends here
+
+println("------- TASK 1 -------")
+println(result)
+result</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="task-2" name="Get values from all three defined maps and put them into a new map" scriptFormat="groovy" camunda:resultVariable="task2">
+      <bpmn:incoming>Flow_1rf5rnp</bpmn:incoming>
+      <bpmn:outgoing>Flow_00ydmrh</bpmn:outgoing>
+      <bpmn:script>def result;
+
+// Your code starts here
+
+result = dpmJson()
+def spinObj = dpmJson(mySpinObj)
+def jsonString = dpmJson(myJsonString)
+def map = dpmJson(myMap)
+
+result.newFirstName = spinObj.firstName.value()
+result.newLastName = jsonString.lastName.value()
+result.newJob = map.job.value()
+
+// Your code ends here
+
+println("------- TASK 2 -------")
+println(result)
+result</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_00ydmrh" sourceRef="task-2" targetRef="task-3" />
+    <bpmn:textAnnotation id="TextAnnotation_1uxi45w">
+      <bpmn:text>You're good to go!</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_05ysm1w" sourceRef="debug" targetRef="TextAnnotation_1uxi45w" />
+    <bpmn:textAnnotation id="TextAnnotation_1e11gzw">
+      <bpmn:text>Task 1</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_03mt71b" sourceRef="task" targetRef="TextAnnotation_1e11gzw" />
+    <bpmn:textAnnotation id="TextAnnotation_076u8gr">
+      <bpmn:text>Task 3</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0rb9a4w" sourceRef="task-3" targetRef="TextAnnotation_076u8gr" />
+    <bpmn:textAnnotation id="TextAnnotation_0hsyz1v">
+      <bpmn:text>Task 2</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_158oxsd" sourceRef="task-2" targetRef="TextAnnotation_0hsyz1v" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="dpmjson-attributes-learning-process-solution">
+      <bpmndi:BPMNEdge id="Flow_00ydmrh_di" bpmnElement="Flow_00ydmrh">
+        <di:waypoint x="700" y="207" />
+        <di:waypoint x="760" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rf5rnp_di" bpmnElement="Flow_1rf5rnp">
+        <di:waypoint x="540" y="207" />
+        <di:waypoint x="600" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1x5h5g4_di" bpmnElement="Flow_1x5h5g4">
+        <di:waypoint x="860" y="207" />
+        <di:waypoint x="930" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ga4qb8_di" bpmnElement="Flow_0ga4qb8">
+        <di:waypoint x="1030" y="207" />
+        <di:waypoint x="1092" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05fuic6_di" bpmnElement="Flow_05fuic6">
+        <di:waypoint x="370" y="207" />
+        <di:waypoint x="440" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_037s7n3_di" bpmnElement="Flow_037s7n3">
+        <di:waypoint x="215" y="207" />
+        <di:waypoint x="270" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="189" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0cj23ob_di" bpmnElement="set-process-data">
+        <dc:Bounds x="270" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0e3dyux_di" bpmnElement="Event_0e3dyux">
+        <dc:Bounds x="1092" y="189" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1klukaj_di" bpmnElement="debug">
+        <dc:Bounds x="930" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_112oljj_di" bpmnElement="task-3">
+        <dc:Bounds x="760" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0d6azos_di" bpmnElement="task">
+        <dc:Bounds x="440" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tz2opr_di" bpmnElement="task-2">
+        <dc:Bounds x="600" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1uxi45w_di" bpmnElement="TextAnnotation_1uxi45w">
+        <dc:Bounds x="1030" y="80" width="110" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1e11gzw_di" bpmnElement="TextAnnotation_1e11gzw">
+        <dc:Bounds x="540" y="80" width="100" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_076u8gr_di" bpmnElement="TextAnnotation_076u8gr">
+        <dc:Bounds x="870" y="80" width="100.00000762939453" height="30.000001907348633" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0hsyz1v_di" bpmnElement="TextAnnotation_0hsyz1v">
+        <dc:Bounds x="700" y="80" width="100.00000762939453" height="30.000001907348633" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_05ysm1w_di" bpmnElement="Association_05ysm1w">
+        <di:waypoint x="1016" y="167" />
+        <di:waypoint x="1058" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_03mt71b_di" bpmnElement="Association_03mt71b">
+        <di:waypoint x="526" y="167" />
+        <di:waypoint x="577" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0rb9a4w_di" bpmnElement="Association_0rb9a4w">
+        <di:waypoint x="849" y="167" />
+        <di:waypoint x="905" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_158oxsd_di" bpmnElement="Association_158oxsd">
+        <di:waypoint x="686" y="167" />
+        <di:waypoint x="737" y="110" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1k4gt33" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="dpmjson-maps-learning-process" name="dpmJson maps Learning process" isExecutable="true" camunda:versionTag="1.0.0">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_037s7n3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="set-process-data" name="Set process data">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="people">
+            <camunda:script scriptFormat="groovy">dpmJson([
+  Max: [
+     lastName: "Muster",
+     id: 34577,
+     hasPets: false,
+     carBrand: "VW"
+  ],
+  Henry: [
+     lastName: "Beispiel",
+     id: 12356,
+     hasPets: true
+  ],
+  Anna: [
+     lastName: "West",
+     id: 99348,
+     hasPets: false,
+     carBrand: "Ferrari"
+  ],
+  Farid: [
+     lastName: "Al-Shami",
+     id: 16528,
+     hasPets: false,
+     carBrand: "Mercedes"
+  ],
+  Chiara: [
+     lastName: "Bernasconi",
+     id: 93678,
+     hasPets: true,
+     carBrand: "Audi"
+  ],
+  Celine: [
+     lastName: "Foster",
+     id: 26735,
+     hasPets: true,
+     carBrand: "Jaguar"
+  ]
+])</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_037s7n3</bpmn:incoming>
+      <bpmn:outgoing>Flow_05fuic6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_037s7n3" sourceRef="StartEvent_1" targetRef="set-process-data" />
+    <bpmn:sequenceFlow id="Flow_05fuic6" sourceRef="set-process-data" targetRef="task-1" />
+    <bpmn:sequenceFlow id="Flow_1bodr86" sourceRef="task-1" targetRef="task-2" />
+    <bpmn:endEvent id="Event_0e3dyux">
+      <bpmn:incoming>Flow_0ga4qb8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1r9rmf6" sourceRef="task-2" targetRef="task-3" />
+    <bpmn:scriptTask id="task-1" name="Create object with car brand as Key and firstName as value" scriptFormat="groovy" camunda:resultVariable="task1">
+      <bpmn:incoming>Flow_05fuic6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bodr86</bpmn:outgoing>
+      <bpmn:script>def result;
+
+// Your code starts here
+
+// Your code ends here
+
+println("------- TASK 1 -------")
+println(result)
+result</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0ttsu9a" sourceRef="task-3" targetRef="debug" />
+    <bpmn:scriptTask id="task-2" name="Make the last name as key instead of the first one" scriptFormat="groovy" camunda:resultVariable="task2">
+      <bpmn:incoming>Flow_1bodr86</bpmn:incoming>
+      <bpmn:outgoing>Flow_1r9rmf6</bpmn:outgoing>
+      <bpmn:script>def result;
+
+// Your code starts here
+
+// Your code ends here
+
+println("------- TASK 2 -------")
+println(result)
+result</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="task-3" name="Get a list sorted alphabetically by the first name" scriptFormat="groovy" camunda:resultVariable="task3">
+      <bpmn:incoming>Flow_1r9rmf6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ttsu9a</bpmn:outgoing>
+      <bpmn:script>def result;
+
+// Your code starts here
+
+// Your code ends here
+
+println("------- TASK 3 -------")
+println(result)
+result</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0ga4qb8" sourceRef="debug" targetRef="Event_0e3dyux" />
+    <bpmn:userTask id="debug" name="Debug">
+      <bpmn:incoming>Flow_0ttsu9a</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ga4qb8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:textAnnotation id="TextAnnotation_12goo3u">
+      <bpmn:text>Task 1</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1id8r23" sourceRef="task-1" targetRef="TextAnnotation_12goo3u" />
+    <bpmn:textAnnotation id="TextAnnotation_1a6a97w">
+      <bpmn:text>Task 2</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1f7xtzm" sourceRef="task-2" targetRef="TextAnnotation_1a6a97w" />
+    <bpmn:textAnnotation id="TextAnnotation_0jy35qx">
+      <bpmn:text>Task 3</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_11bjybt" sourceRef="task-3" targetRef="TextAnnotation_0jy35qx" />
+    <bpmn:textAnnotation id="TextAnnotation_1uxi45w">
+      <bpmn:text>You're good to go!</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_05ysm1w" sourceRef="debug" targetRef="TextAnnotation_1uxi45w" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="dpmjson-maps-learning-process">
+      <bpmndi:BPMNEdge id="Flow_0ga4qb8_di" bpmnElement="Flow_0ga4qb8">
+        <di:waypoint x="1010" y="207" />
+        <di:waypoint x="1072" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ttsu9a_di" bpmnElement="Flow_0ttsu9a">
+        <di:waypoint x="850" y="207" />
+        <di:waypoint x="910" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r9rmf6_di" bpmnElement="Flow_1r9rmf6">
+        <di:waypoint x="690" y="207" />
+        <di:waypoint x="750" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bodr86_di" bpmnElement="Flow_1bodr86">
+        <di:waypoint x="530" y="207" />
+        <di:waypoint x="590" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05fuic6_di" bpmnElement="Flow_05fuic6">
+        <di:waypoint x="370" y="207" />
+        <di:waypoint x="430" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_037s7n3_di" bpmnElement="Flow_037s7n3">
+        <di:waypoint x="215" y="207" />
+        <di:waypoint x="270" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="189" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0cj23ob_di" bpmnElement="set-process-data">
+        <dc:Bounds x="270" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0e3dyux_di" bpmnElement="Event_0e3dyux">
+        <dc:Bounds x="1072" y="189" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1u5jshq_di" bpmnElement="task-1">
+        <dc:Bounds x="430" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19ssh34_di" bpmnElement="task-2">
+        <dc:Bounds x="590" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0idp657_di" bpmnElement="task-3">
+        <dc:Bounds x="750" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1klukaj_di" bpmnElement="debug">
+        <dc:Bounds x="910" y="167" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_12goo3u_di" bpmnElement="TextAnnotation_12goo3u">
+        <dc:Bounds x="530" y="80" width="100.00000762939453" height="30.000001907348633" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1a6a97w_di" bpmnElement="TextAnnotation_1a6a97w">
+        <dc:Bounds x="690" y="80" width="100.00000762939453" height="30.000001907348633" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0jy35qx_di" bpmnElement="TextAnnotation_0jy35qx">
+        <dc:Bounds x="850" y="80" width="100.00000762939453" height="30.000001907348633" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1uxi45w_di" bpmnElement="TextAnnotation_1uxi45w">
+        <dc:Bounds x="1010" y="80" width="110" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1id8r23_di" bpmnElement="Association_1id8r23">
+        <di:waypoint x="516" y="167" />
+        <di:waypoint x="567" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1f7xtzm_di" bpmnElement="Association_1f7xtzm">
+        <di:waypoint x="676" y="167" />
+        <di:waypoint x="727" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_11bjybt_di" bpmnElement="Association_11bjybt">
+        <di:waypoint x="836" y="167" />
+        <di:waypoint x="887" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_05ysm1w_di" bpmnElement="Association_05ysm1w">
+        <di:waypoint x="996" y="167" />
+        <di:waypoint x="1038" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
