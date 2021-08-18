@@ -1,27 +1,31 @@
 # dpm-json
-Json handling and manipulation tool for easy use in Camunda processes with [Groovy](https://groovy-lang.org/syntax.html).
+Json handling and manipulation tool for easy use in Camunda scripts with [Groovy](https://groovy-lang.org/syntax.html). All dpmJson functions can be accessed after wrapping a JSON-String, a Map, a List or a Camunda-Spin object with dpmJson.read(myObject). The returned object gets serialized as Camunda-spin variable.
+
+Below a example of the same logic written in Javascript-Spin and with Groovy-dpmJson:
 
 <table border="0">
  <tr>
     <td><b style="font-size:30px">Javascript spin</b></td>
-    <td><b style="font-size:30px">dpmJson</b></td>
+    <td><b style="font-size:30px">Groovy dpmJson</b></td>
  </tr>
  <tr>
    <td>
      <pre><code>
-def myVar = dpmJson.read([1,2,3,4])
-myVar.isArray() // true
-myVar[2] // 3 as Spin object
-myVar[2].value() // 3 as number
+var parsedList = JSON.parse(myList)
+var filteredList = []
+for(var it in parsedList) {
+   if(it % 2 === 0) {
+       filteredList.push(it)
+   }
+}
+S(JSON.stringify(filteredList))
         </code>
       </pre>
    </td>
     <td>
       <pre><code>
-def myVar = dpmJson.read([1,2,3,4])
-myVar.isArray() // true
-myVar[2] // 3 as Spin object
-myVar[2].value() // 3 as number
+def list = dpmJson.read(myList).findAll{it % 2 == 0}
+dpmJson.read(list)
         </code>
       </pre>
    </td>
@@ -62,3 +66,16 @@ Add to the pom.xml file of your Camunda application the following dependencies:
 <dependencies>
 ```
 
+## Usage
+dpmJson is available for every script section in Camunda that supports Groovy, be it a Script task, or a script in the Input/Output section of any task type. Entry point for the usage of its features is to wrap a 
+- Spin JSON Object
+- LinkedHashMap (or any Map)
+- ArrayList (or any List)
+- JSON string 
+with the command
+```
+dpmJson.read(myJson)
+```
+which will return a wrapped Spin Json object. The wrapped spin object will automatically be stored as a spin json variable without further serialization steps.
+
+### Accessing attributes
