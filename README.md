@@ -250,6 +250,6 @@ def map = dpmJson.read(jsonObj).myMap.toString() // "{ \"myKey\": \"myValue\" }"
 ```
 
 ## Roadmap
-- [] Support in Camunda expressions
-- [] List concat function
-- [] Iterators return dpmJson wrappers
+- [ ] Support in Camunda expressions
+- [ ] List concat function
+- [ ] Groovy Iterators return dpmJson wrappers
