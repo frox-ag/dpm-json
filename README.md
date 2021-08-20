@@ -114,7 +114,7 @@ since myKey is not of type List.
 
 ### List operations
 
-dpmJson allows to use many List operations. To verify if a attribute is of tyle List, add *.isList()* after your attribute chain. This will return a boolean. 
+dpmJson allows to use many List operations. To verify if a attribute is of type List, add *.isList()* after your attribute chain. This will return a boolean. 
 ```
 dpmJson.read(jsonObj).myList.isList() // true
 dpmJson.read(jsonObj).myMap.isList() // false
@@ -149,3 +149,43 @@ list.findAll { it % 2 == 0 } // finds all elements for which the given lambda re
 ```
 
 **TODO: list.concat**
+
+### Map operations
+
+dpmJson allows to use many Map operations. To verify if a attribute is of type Map, add *.isMap()* after your attribute chain. This will return a boolean. 
+```
+dpmJson.read(jsonObj).myMap.isMap() // true
+dpmJson.read(jsonObj).myList.isMap() // false
+```
+Furthermore, it is possible to use common Map functions like
+```
+dpmJson.read(jsonObj).myMap.size() // 1
+dpmJson.read(jsonObj).myMap.clear() // clears the content of the map
+dpmJson.read(jsonObj).myMap.elements() // returns a SpinJson List that can be used e.g. in Camunda Loops
+dpmJson.read(jsonObj).myMap.myKey // gets the value for the key "myKey"
+dpmJson.read(jsonObj).myMap["myKey"] // gets the value for the key "myKey". Note: you can use variable keys with this accessor
+dpmJson.read(jsonObj).myMap.myKey = "myNewValue" // sets the value for the key "myKey"
+dpmJson.read(jsonObj).myMap["myKey"] = "myNewValue" // sets the value for the key "myKey". Note: you can use variable keys with this accessor
+```
+
+It is possible to iterate in many ways over Maps. Note that the iteratee is a LinkedHashMap that contains the key and the value. It is possible to access the key by adding *.key* and the value by adding *.value*.
+The classic for loop:
+```
+def map = dpmJson.read(jsonObj).myMap
+for(val in map) {
+   println(val.key)
+   println(val.value)
+   ... your logic here ...
+}
+```
+With Groovy's List iterators:
+```
+def map = dpmJson.read(jsonObj).myMap
+map.each { it -> println(it) } // for multiline logic
+map.each { println(it) } // static lambda declaration, where *it* is implicitly the iteratee
+map.eachWithIndex { it, i -> println(it.value); println(it.key); println(i); } // iteration with additional index variable
+map.collect { it.myKey } // remaps the Map with the defined logic. Note: returns ArrayList
+map.sort{ a, b -> b.value - a.value } // Sorts map in descending order. Note: returns LinkedHashMap
+map.find { it % 2 == 0 } // finds first element for which the given lambda returns true. Note: returns LinkedHashMap with key and deserialized value
+map.findAll { it % 2 == 0 } // finds all elements for which the given lambda returns true. Note: returns ArrayList containing LinkedHashMaps with key and deserialized values
+```
