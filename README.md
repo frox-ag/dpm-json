@@ -33,37 +33,71 @@ dpmJson.read(list)
 </table>
 
 ## Get started
-Add to the pom.xml file of your Camunda application the following dependencies:
+Add to the pom.xml file of your Java-based Camunda application the following settings:
 
 ```
-<dependencies>
-            ...
-            <dependency>
-                <groupId>org.camunda.bpm</groupId>
-                <artifactId>camunda-engine-plugin-spin</artifactId>
-                <version>7.14.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.spin</groupId>
-                <artifactId>camunda-spin-core</artifactId>
-                <version>1.7.5</version>
-            </dependency>
-            <dependency>
-                <groupId>org.camunda.spin</groupId>
-                <artifactId>camunda-spin-dataformat-all</artifactId>
-                <version>1.7.5</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-all</artifactId>
-                <version>2.4.15</version>
-            </dependency>
-            <dependency>
-                <groupId>org.frox.dpm</groupId>
-                <artifactId>dpm-json</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-<dependencies>
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <compilerId>groovy-eclipse-compiler</compilerId>
+                <source>${java.version}</source>
+                <target>${java.version}</target>
+                <verbose>true</verbose>
+                <fork>true</fork>
+                <compilerArguments>
+                    <javaAgentClass>lombok.launch.Agent</javaAgentClass>
+                </compilerArguments>
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                        <version>${lombok.version}</version>
+                    </path>
+                </annotationProcessorPaths>
+            </configuration>
+            <dependencies>
+                <dependency>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy-eclipse-compiler</artifactId>
+                    <version>3.6.0-03</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy-eclipse-batch</artifactId>
+                    <version>${groovy.version}-01</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.projectlombok</groupId>
+                    <artifactId>lombok</artifactId>
+                    <version>${lombok.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.camunda.bpm</groupId>
+                    <artifactId>camunda-engine-plugin-spin</artifactId>
+                    <version>7.14.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.camunda.spin</groupId>
+                    <artifactId>camunda-spin-core</artifactId>
+                    <version>1.7.5</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.camunda.spin</groupId>
+                    <artifactId>camunda-spin-dataformat-all</artifactId>
+                    <version>1.7.5</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.frox.dpm</groupId>
+                    <artifactId>dpm-json</artifactId>
+                    <version>1.0.0</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+    </plugins>
+</build>
 ```
 
 ## Usage
