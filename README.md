@@ -67,32 +67,51 @@ Add to the pom.xml file of your Camunda application the following dependencies:
 ```
 
 ## Usage
-dpmJson is available for every script section in Camunda that supports Groovy, be it a Script task, or a script in the Input/Output section of any task type. Entry point for the usage of its features is to wrap a 
-- Spin JSON Object
-- LinkedHashMap (or any Map)
-- ArrayList (or any List)
+dpmJson is available for every script section in Camunda that supports Groovy, be it a Script task, or a script in the Input/Output section of any task type. Entry point for the usage of its features is to wrap a supported input object with *dpmJson.read(myObject)*.
+Supported data types are:
+- LinkedHashMap (or any Map, including Groovy Map)
+```
+  def myMap = [myKey: "myValue"]
+  dpmJson.read(myMap)
+```
+- ArrayList (or any List, including Groovy List)
+```
+  def myList = [0,1,2,3]
+  dpmJson.read(myList)
+```
 - JSON string 
-with the command
 ```
-dpmJson.read(myJson)
+  def myJsonString = "{ \"myKey\": \"myValue\" }"
+  dpmJson.read(myJsonString)
 ```
-which will return a wrapped Spin Json object. The wrapped spin object will automatically be stored as a spin json variable without further serialization steps.
+- Spin JSON Object
+```
+  dpmJson.read(mySpinJsonObject)
+```
+Initializing a dpmJson object will return a wrapped Spin Json object. The wrapped spin object will automatically be stored as a spin json variable in the Camunda engine *without* further serialization steps.
 
 ### Accessing attributes
 
 For a JSON Object with the following structure
-
 ```
-def jsonObj = {
-                myMap: { myKey: "myValue" },
+def jsonObj = [
+                myMap: [ myKey: "myValue" ],
                 myList: [0,1,2,3]
-              }
+              ]
 ```
 it is possible to access attributes as follows:
 ```
 dpmJson.read(jsonObj).myMap
 ```
 This will return another wrapped Spin-JSON object with the key *myObj* as root.
+Note: the definition of the jsonObj might be unintuitive for experienced JSON users. In Groovy a Map is not declared as e.g. in javascript:
+```
+{ myKey: "myValue" }
+```
+but
+```
+[ myKey: "myValue" ]
+```
 
 To get the deserialized value of this key it is necessary to add *.value()* after the expression:
 ```
@@ -189,3 +208,14 @@ map.sort{ a, b -> b.value - a.value } // Sorts map in descending order. Note: re
 map.find { it % 2 == 0 } // finds first element for which the given lambda returns true. Note: returns LinkedHashMap with key and deserialized value
 map.findAll { it % 2 == 0 } // finds all elements for which the given lambda returns true. Note: returns ArrayList containing LinkedHashMaps with key and deserialized values
 ```
+
+### Additional functions
+It is possible to deep-stringify all dpmJson wrapped objects:
+```
+def map = dpmJson.read(jsonObj).myMap.toString() // "{ \"myKey\": \"myValue\" }"
+```
+
+## Roadmap
+- [] Support in Camunda expressions
+- [] List concat function
+- [] Iterators return dpmJson wrappers
