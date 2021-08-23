@@ -24,8 +24,7 @@ S(JSON.stringify(filteredList))
    </td>
     <td>
       <pre><code>
-def list = dpmJson.read(myList).findAll{it % 2 == 0}
-dpmJson.read(list)
+dpmJson.read(myList).findAll{it % 2 == 0}
         </code>
       </pre>
    </td>
@@ -195,10 +194,10 @@ def list = dpmJson.read(jsonObj).myList
 list.each { it -> println(it) } // for multiline logic
 list.each { println(it) } // static lambda declaration, where *it* is implicitly the iteratee
 list.eachWithIndex { it, i -> println(it); println(i); } // iteration with additional index variable
-list.collect { it.myKey } // remaps the List with the defined logic. Note: returns ArrayList
-list.sort { a, b -> a - b } // Sorts list in ascending order. Note: returns ArrayList
-list.find { it % 2 == 0 } // finds first element for which the given lambda returns true. Note: returns deserialized Data value
-list.findAll { it % 2 == 0 } // finds all elements for which the given lambda returns true. Note: returns ArrayList containing deserialized Data values
+list.collect { it.myKey } // remaps the List with the defined logic. 
+list.sort { a, b -> a - b } // Sorts list in ascending order. 
+list.find { it % 2 == 0 } // finds first element for which the given lambda returns true. 
+list.findAll { it % 2 == 0 } // finds all elements for which the given lambda returns true. 
 ```
 
 **TODO: list.concat**
@@ -221,35 +220,27 @@ dpmJson.read(jsonObj).myMap.myKey = "myNewValue" // sets the value for the key "
 dpmJson.read(jsonObj).myMap["myKey"] = "myNewValue" // sets the value for the key "myKey". Note: you can use variable keys with this accessor
 ```
 
-It is possible to iterate in many ways over Maps. Note that the iteratee is a LinkedHashMap that contains the key and the value. It is possible to access the key by adding *.key* and the value by adding *.value*.
-The classic for loop:
+It is possible to iterate in many ways over Maps. The classic for loop:
 ```
 def map = dpmJson.read(jsonObj).myMap
 for(val in map) {
-   println(val.key)
-   println(val.value)
+   println(val)
    ... your logic here ...
 }
 ```
 With Groovy's List iterators:
 ```
 def map = dpmJson.read(jsonObj).myMap
-map.each { it -> println(it) } // for multiline logic
-map.each { println(it) } // static lambda declaration, where *it* is implicitly the iteratee
+map.each { it -> println(it) } // Iterate over all elements in list. For multiline logic in lambda
+map.each { println(it) } // static lambda declaration, where 'it' is implicitly the iteratee. Suggested for single line scripts
 map.eachWithIndex { it, i -> println(it.value); println(it.key); println(i); } // iteration with additional index variable
-map.collect { it.myKey } // remaps the Map with the defined logic. Note: returns ArrayList
-map.sort{ a, b -> b.value - a.value } // Sorts map in descending order. Note: returns LinkedHashMap
-map.find { it % 2 == 0 } // finds first element for which the given lambda returns true. Note: returns LinkedHashMap with key and deserialized value
-map.findAll { it % 2 == 0 } // finds all elements for which the given lambda returns true. Note: returns ArrayList containing LinkedHashMaps with key and deserialized values
-```
-
-### Additional functions
-It is possible to deep-stringify all dpmJson wrapped objects:
-```
-def map = dpmJson.read(jsonObj).myMap.toString() // "{ \"myKey\": \"myValue\" }"
+map.collect { it.myKey } // remaps the Map with the defined logic. 
+map.sort{ a, b -> b.value - a.value } // Sorts map in descending order. 
+map.find { it % 2 == 0 } // finds first element for which the given lambda returns true. 
+map.findAll { it % 2 == 0 } // finds all elements for which the given lambda returns true. 
 ```
 
 ## Roadmap
 - [ ] Support in Camunda expressions
 - [ ] List concat function
-- [ ] Groovy Iterators return dpmJson wrappers
+- [x] Groovy Iterators return dpmJson wrappers
