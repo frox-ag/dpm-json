@@ -19,12 +19,16 @@ for(var it in parsedList) {
    }
 }
 S(JSON.stringify(filteredList))
+
+// returns [‘1’, ‘2’]
         </code>
       </pre>
    </td>
     <td>
       <pre><code>
 dpmJson.read(myList).findAll{it % 2 == 0}
+
+// returns [1, 2]
         </code>
       </pre>
    </td>
