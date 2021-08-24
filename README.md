@@ -34,6 +34,17 @@ dpmJson.read(myList).findAll{it % 2 == 0}
    </td>
  </tr>
 </table>
+ - [Get started](#get-started)
+ - [Usage](#usage)
+   * [Accessing attributes](#accessing-attributes)
+   * [Assigning attributes](#assigning-attributes)
+   * [Verifying attribute existence](#verifying-attribute-existence)
+   * [List operations](#list-operations)
+   * [Map operations](#map-operations)
+ - [Roadmap](#roadmap)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 ## Get started
 Add to the pom.xml file of your Java-based Camunda application the following settings:
