@@ -156,6 +156,36 @@ dpmJson.read(jsonObj).myMap.myKey.value()
 ```
 This will return a string containing "myValue".
 
+It is also possible to access values with variable keys as follows
+```
+def key = "myMap"
+dpmJson.read(jsonObj)[key].value()
+```
+
+### Assigning attributes
+
+It is poissible to assign values to keys as follows:
+```
+dpmJson.read(jsonObj).myMap.myKey.mySecondKey = "myNewValue"
+```
+In this case *mySecondKey* does not exist in advance and will be created. The previous value of myKey will be overwritten.
+```
+{
+  myMap: { 
+    myKey: {
+      mySecondKey: "myNewValue"
+    } 
+  },
+  myList: [0,1,2,3]
+{
+```
+
+It is also possible to assign values with variable keys as follows
+```
+def key = "myMap"
+dpmJson.read(jsonObj)[key] = "myNewValue"
+```
+
 ### Verifying attribute existence
 
 It is possible to check easily for attribute existence by adding *.exists()*. If the attribute does not exist, no exception is thrown but *false* is returned. This allows fail-safe scripting.
