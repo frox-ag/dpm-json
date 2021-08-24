@@ -195,16 +195,14 @@ for(val in list) {
 With Groovy's List iterators:
 ```
 def list = dpmJson.read(jsonObj).myList
-list.each { it -> println(it) } // for multiline logic
-list.each { println(it) } // static lambda declaration, where *it* is implicitly the iteratee
+list.each { it -> println(it) } // Iterate over all elements in list. For multiline logic in lambda
+list.each { println(it) } // static lambda declaration, where 'it' is implicitly the iteratee. Suggested for single line scripts
 list.eachWithIndex { it, i -> println(it); println(i); } // iteration with additional index variable
 list.collect { it.myKey } // remaps the List with the defined logic. 
 list.sort { a, b -> a - b } // Sorts list in ascending order. 
 list.find { it % 2 == 0 } // finds first element for which the given lambda returns true. 
 list.findAll { it % 2 == 0 } // finds all elements for which the given lambda returns true. 
 ```
-
-**TODO: list.concat**
 
 ### Map operations
 
