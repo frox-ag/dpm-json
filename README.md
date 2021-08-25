@@ -267,7 +267,6 @@ It is possible to iterate in many ways over Maps. The classic for loop:
 ```
 def map = dpmJson.read(jsonObj).myMap
 for(val in map) {
-   println(val)
    ... your logic here ...
 }
 ```
