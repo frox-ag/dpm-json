@@ -28,7 +28,7 @@ S(JSON.stringify(filteredList))
    </td>
     <td>
       <pre><code>
-dpmJson.read(myList).findAll{it % 2 == 0}
+dpmJson(myList).findAll{it % 2 == 0}
 // returns [0, 2]
         </code>
       </pre>
@@ -120,23 +120,25 @@ Supported data types are:
 - LinkedHashMap (or any Map, including Groovy Map)
 ```
   def myMap = [myKey: "myValue"]
-  dpmJson.read(myMap)
+  dpmJson(myMap)
 ```
 - ArrayList (or any List, including Groovy List)
 ```
   def myList = [0,1,2,3]
-  dpmJson.read(myList)
+  dpmJson(myList)
 ```
 - JSON string 
 ```
   def myJsonString = "{ \"myKey\": \"myValue\" }"
-  dpmJson.read(myJsonString)
+  dpmJson(myJsonString)
 ```
 - Spin JSON Object
 ```
-  dpmJson.read(mySpinJsonObject)
+  dpmJson(mySpinJsonObject)
 ```
 Initializing a dpmJson object will return a wrapped Spin Json object. The wrapped spin object will automatically be stored as a spin json variable in the Camunda engine *without* further serialization steps.
+
+TODO Note: depending on the architecture of your Camunda application the API call may differ...
 
 ### Accessing attributes
 
@@ -149,7 +151,7 @@ def jsonObj = [
 ```
 it is possible to access attributes as follows:
 ```
-dpmJson.read(jsonObj).myMap
+dpmJson(jsonObj).myMap
 ```
 This will return another wrapped Spin-JSON object with the key *myObj* as root.
 Note: the definition of the jsonObj might be unintuitive for experienced JSON users. In Groovy a Map is not declared as e.g. in javascript:
@@ -163,21 +165,21 @@ but
 
 To get the deserialized value of this key it is necessary to add *.value()* after the expression:
 ```
-dpmJson.read(jsonObj).myMap.myKey.value()
+dpmJson(jsonObj).myMap.myKey.value()
 ```
 This will return a string containing "myValue".
 
 It is also possible to access values with variable keys as follows
 ```
 def key = "myMap"
-dpmJson.read(jsonObj)[key].value()
+dpmJson(jsonObj)[key].value()
 ```
 
 ### Assigning attributes
 
 It is poissible to assign values to keys as follows:
 ```
-dpmJson.read(jsonObj).myMap.myKey.mySecondKey = "myNewValue"
+dpmJson(jsonObj).myMap.myKey.mySecondKey = "myNewValue"
 ```
 In this case *mySecondKey* does not exist in advance and will be created. The previous value of myKey will be overwritten.
 ```
@@ -194,18 +196,18 @@ In this case *mySecondKey* does not exist in advance and will be created. The pr
 It is also possible to assign values with variable keys as follows
 ```
 def key = "myMap"
-dpmJson.read(jsonObj)[key] = "myNewValue"
+dpmJson(jsonObj)[key] = "myNewValue"
 ```
 
 ### Verifying attribute existence
 
 It is possible to check easily for attribute existence by adding *.exists()*. If the attribute does not exist, no exception is thrown but *false* is returned. This allows fail-safe scripting.
 ```
-dpmJson.read(jsonObj).myMap.myKey.myInexistingKey.exists()
+dpmJson(jsonObj).myMap.myKey.myInexistingKey.exists()
 ```
 Note: this does **not** work for array accesses like
 ```
-dpmJson.read(jsonObj).myMap.myKey[2].value()
+dpmJson(jsonObj).myMap.myKey[2].value()
 ```
 since myKey is not of type List.
 
@@ -213,29 +215,29 @@ since myKey is not of type List.
 
 dpmJson allows to use many List operations. To verify if a attribute is of type List, add *.isList()* after your attribute chain. This will return a boolean. 
 ```
-dpmJson.read(jsonObj).myList.isList() // true
-dpmJson.read(jsonObj).myMap.isList() // false
+dpmJson(jsonObj).myList.isList() // true
+dpmJson(jsonObj).myMap.isList() // false
 ```
 Furthermore, it is possible to use common List functions like
 ```
-dpmJson.read(jsonObj).myList.size() // 4
-dpmJson.read(jsonObj).myList.clear() // clears the content of the list
-dpmJson.read(jsonObj).myList.elements() // returns a SpinJson List that can be used e.g. in Camunda Loops
-dpmJson.read(jsonObj).myList.push(someObject) // adds a new object to the list (accepts Groovy List, Groovy Map and dpmJson objects)
-dpmJson.read(jsonObj).myList[2] // gets the third element in the list. Note: throws exception if index is out of bounds
-dpmJson.read(jsonObj).myList[2] = "myNewValue" // assigns "myNewValue" to the third element of the list. Note: throws exception if index is out of bounds
+dpmJson(jsonObj).myList.size() // 4
+dpmJson(jsonObj).myList.clear() // clears the content of the list
+dpmJson(jsonObj).myList.elements() // returns a SpinJson List that can be used e.g. in Camunda Loops
+dpmJson(jsonObj).myList.push(someObject) // adds a new object to the list (accepts Groovy List, Groovy Map and dpmJson objects)
+dpmJson(jsonObj).myList[2] // gets the third element in the list. Note: throws exception if index is out of bounds
+dpmJson(jsonObj).myList[2] = "myNewValue" // assigns "myNewValue" to the third element of the list. Note: throws exception if index is out of bounds
 ```
 
 It is possible to iterate in many ways over Lists. The classic for loop:
 ```
-def list = dpmJson.read(jsonObj).myList
+def list = dpmJson(jsonObj).myList
 for(val in list) {
    ... your logic here ...
 }
 ```
 With Groovy's List iterators:
 ```
-def list = dpmJson.read(jsonObj).myList
+def list = dpmJson(jsonObj).myList
 list.each { it -> println(it) } // Iterate over all elements in list. For multiline logic in lambda
 list.each { println(it) } // static lambda declaration, where 'it' is implicitly the iteratee. Suggested for single line scripts
 list.eachWithIndex { it, i -> println(it); println(i); } // iteration with additional index variable
@@ -249,30 +251,30 @@ list.findAll { it.value() % 2 == 0 } // finds all elements for which the given l
 
 dpmJson allows to use many Map operations. To verify if a attribute is of type Map, add *.isMap()* after your attribute chain. This will return a boolean. 
 ```
-dpmJson.read(jsonObj).myMap.isMap() // true
-dpmJson.read(jsonObj).myList.isMap() // false
+dpmJson(jsonObj).myMap.isMap() // true
+dpmJson(jsonObj).myList.isMap() // false
 ```
 Furthermore, it is possible to use common Map functions like
 ```
-dpmJson.read(jsonObj).myMap.size() // 1
-dpmJson.read(jsonObj).myMap.clear() // clears the content of the map
-dpmJson.read(jsonObj).myMap.elements() // returns a SpinJson List that can be used e.g. in Camunda Loops
-dpmJson.read(jsonObj).myMap.myKey // gets the value for the key "myKey"
-dpmJson.read(jsonObj).myMap["myKey"] // gets the value for the key "myKey". Note: you can use variable keys with this accessor
-dpmJson.read(jsonObj).myMap.myKey = "myNewValue" // sets the value for the key "myKey"
-dpmJson.read(jsonObj).myMap["myKey"] = "myNewValue" // sets the value for the key "myKey". Note: you can use variable keys with this accessor
+dpmJson(jsonObj).myMap.size() // 1
+dpmJson(jsonObj).myMap.clear() // clears the content of the map
+dpmJson(jsonObj).myMap.elements() // returns a SpinJson List that can be used e.g. in Camunda Loops
+dpmJson(jsonObj).myMap.myKey // gets the value for the key "myKey"
+dpmJson(jsonObj).myMap["myKey"] // gets the value for the key "myKey". Note: you can use variable keys with this accessor
+dpmJson(jsonObj).myMap.myKey = "myNewValue" // sets the value for the key "myKey"
+dpmJson(jsonObj).myMap["myKey"] = "myNewValue" // sets the value for the key "myKey". Note: you can use variable keys with this accessor
 ```
 
 It is possible to iterate in many ways over Maps. The classic for loop:
 ```
-def map = dpmJson.read(jsonObj).myMap
+def map = dpmJson(jsonObj).myMap
 for(val in map) {
    ... your logic here ...
 }
 ```
 With Groovy's List iterators:
 ```
-def map = dpmJson.read(jsonObj).myMap
+def map = dpmJson(jsonObj).myMap
 map.each { it -> println(it) } // Iterate over all elements in list. For multiline logic in lambda
 map.each { println(it) } // static lambda declaration, where 'it' is implicitly the iteratee. Suggested for single line scripts
 map.eachWithIndex { it, i -> println(it.value); println(it.key); println(i); } // iteration with additional index variable
@@ -284,5 +286,5 @@ map.findAll { it.value() % 2 == 0 } // finds all elements for which the given la
 
 ## Roadmap
 - [ ] Support in Camunda expressions
-- [ ] List concat function
+- [x] List concat function
 - [x] Groovy Iterators return dpmJson wrappers
