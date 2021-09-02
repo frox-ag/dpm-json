@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.frox.opendpm.processtools.json.starter.StarterConfiguration
