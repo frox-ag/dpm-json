@@ -39,11 +39,11 @@ dpmJson(myList).findAll{it % 2 == 0}
 - [dpm-json](#dpm-json)
   * [Get started](#get-started)
   * [Usage](#usage)
-    + [Accessing attributes](#accessing-attributes)
-    + [Assigning attributes](#assigning-attributes)
-    + [Verifying attribute existence](#verifying-attribute-existence)
-    + [List operations](#list-operations)
-    + [Map operations](#map-operations)
+    + [👉 Accessing attributes](#accessing-attributes)
+    + [👉 Assigning attributes](#assigning-attributes)
+    + [👉 Verifying attribute existence](#verifying-attribute-existence)
+    + [👉 List operations](#list-operations)
+    + [👉 Map operations](#map-operations)
   * [Roadmap](#roadmap)
 
 ## Get started
@@ -117,26 +117,26 @@ Add to the pom.xml file of your Java-based Camunda application the following set
 ## Usage
 dpmJson is available for every script section in Camunda that supports Groovy, be it a Script task, or a script in the Input/Output section of any task type. Entry point for the usage of its features is to wrap a supported input object with *dpmJson.read(myObject)*.
 Supported data types are:
-- LinkedHashMap (or any Map, including Groovy Map)
+-👉 LinkedHashMap (or any Map, including Groovy Map)
 ```
   def myMap = [myKey: "myValue"]
   dpmJson(myMap)
 ```
-- ArrayList (or any List, including Groovy List)
+-👉 ArrayList (or any List, including Groovy List)
 ```
   def myList = [0,1,2,3]
   dpmJson(myList)
 ```
-- JSON string 
+-👉 JSON string 
 ```
-  def myJsonString = "{ \"myKey\": \"myValue\" }"
+  def myJsonString = '{ "myKey": "myValue" }'
   dpmJson(myJsonString)
 ```
-- Spin JSON Object
+-👉 Spin JSON Object
 ```
   dpmJson(mySpinJsonObject)
 ```
-Initializing a dpmJson object will return a wrapped Spin Json object. The wrapped spin object will automatically be stored as a spin json variable in the Camunda engine *without* further serialization steps.
+Initializing a dpmJson object will return a wrapped Spin JSON object. The wrapped spin object will automatically be stored as a spin JSON variable in the Camunda engine *without* further serialization steps.
 
 TODO Note: depending on the architecture of your Camunda application the API call may differ...
 
@@ -169,7 +169,7 @@ dpmJson(jsonObj).myMap.myKey.value()
 ```
 This will return a string containing "myValue".
 
-It is also possible to access values with variable keys as follows
+It is also possible to access values with variable keys as follows:
 ```
 def key = "myMap"
 dpmJson(jsonObj)[key].value()
@@ -193,7 +193,7 @@ In this case *mySecondKey* does not exist in advance and will be created. The pr
 {
 ```
 
-It is also possible to assign values with variable keys as follows
+It is also possible to assign values with variable keys as follows:
 ```
 def key = "myMap"
 dpmJson(jsonObj)[key] = "myNewValue"
@@ -213,7 +213,7 @@ since myKey is not of type List.
 
 ### List operations
 
-dpmJson allows to use many List operations. To verify if a attribute is of type List, add *.isList()* after your attribute chain. This will return a boolean. 
+dpmJson allows to use many List operations. To verify if an attribute is of type List, add *.isList()* after your attribute chain. This will return a boolean. 
 ```
 dpmJson(jsonObj).myList.isList() // true
 dpmJson(jsonObj).myMap.isList() // false
@@ -249,7 +249,7 @@ list.findAll { it.value() % 2 == 0 } // finds all elements for which the given l
 
 ### Map operations
 
-dpmJson allows to use many Map operations. To verify if a attribute is of type Map, add *.isMap()* after your attribute chain. This will return a boolean. 
+dpmJson allows to use many Map operations. To verify if an attribute is of type Map, add *.isMap()* after your attribute chain. This will return a boolean. 
 ```
 dpmJson(jsonObj).myMap.isMap() // true
 dpmJson(jsonObj).myList.isMap() // false
@@ -265,7 +265,7 @@ dpmJson(jsonObj).myMap.myKey = "myNewValue" // sets the value for the key "myKey
 dpmJson(jsonObj).myMap["myKey"] = "myNewValue" // sets the value for the key "myKey". Note: you can use variable keys with this accessor
 ```
 
-It is possible to iterate in many ways over Maps. The classic for loop:
+It is possible to iterate in many ways over Maps. The classic for each loop:
 ```
 def map = dpmJson(jsonObj).myMap
 for(val in map) {
