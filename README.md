@@ -181,11 +181,11 @@ dpmJson(jsonObj)[key].value()
 
 ### Assigning attributes
 
-It is poissible to assign values to keys as follows:
+It is possible to assign values to keys as follows:
 ```
 dpmJson(jsonObj).myMap.myKey.mySecondKey = "myNewValue"
 ```
-In this case *mySecondKey* does not exist in advance and will be created. The previous value of myKey will be overwritten.
+In this case *mySecondKey* does not exist in advance and will be created and no exception will be thrown. The previous value of myKey will be overwritten.
 ```
 {
   myMap: { 
