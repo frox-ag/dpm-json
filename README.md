@@ -39,11 +39,11 @@ dpmJson(myList).findAll{it % 2 == 0}
 - [dpm-json](#dpm-json)
   * [Get started](#get-started)
   * [Usage](#usage)
-    + [👉 Accessing attributes](#accessing-attributes)
-    + [👉 Assigning attributes](#assigning-attributes)
-    + [👉 Verifying attribute existence](#verifying-attribute-existence)
-    + [👉 List operations](#list-operations)
-    + [👉 Map operations](#map-operations)
+    + [Accessing attributes](#accessing-attributes)
+    + [Assigning attributes](#assigning-attributes)
+    + [Verifying attribute existence](#verifying-attribute-existence)
+    + [List operations](#list-operations)
+    + [Map operations](#map-operations)
   * [Roadmap](#roadmap)
 
 ## Get started
@@ -117,26 +117,27 @@ Add to the pom.xml file of your Java-based Camunda application the following set
 ## Usage
 dpmJson is available for every script section in Camunda that supports Groovy, be it a Script task, or a script in the Input/Output section of any task type. Entry point for the usage of its features is to wrap a supported input object with *dpmJson.read(myObject)*.
 Supported data types are:
-- 👉 LinkedHashMap (or any Map, including Groovy Map)
+
+👉 LinkedHashMap (or any Map, including Groovy Map)
 ```
   def myMap = [myKey: "myValue"]
   dpmJson(myMap)
 ```
-- 👉 ArrayList (or any List, including Groovy List)
+👉 ArrayList (or any List, including Groovy List)
 ```
   def myList = [0,1,2,3]
   dpmJson(myList)
 ```
-- 👉 JSON string 
+👉 JSON string 
 ```
   def myJsonString = '{ "myKey": "myValue" }'
   dpmJson(myJsonString)
 ```
-- 👉 Spin JSON Object
+👉 Spin JSON Object
 ```
   dpmJson(mySpinJsonObject)
 ```
-- 👉 No parameter
+👉 No parameter
 ```
   dpmJson() // returns {}
 ```
