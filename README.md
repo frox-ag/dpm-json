@@ -136,6 +136,10 @@ Supported data types are:
 ```
   dpmJson(mySpinJsonObject)
 ```
+- 👉 No parameter
+```
+  dpmJson() // returns {}
+```
 Initializing a dpmJson object will return a wrapped Spin JSON object. The wrapped spin object will automatically be stored as a spin JSON variable in the Camunda engine *without* further serialization steps.
 
 TODO Note: depending on the architecture of your Camunda application the API call may differ...
