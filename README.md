@@ -274,10 +274,12 @@ It is possible to iterate in many ways over Maps. The classic for each loop:
 ```
 def map = dpmJson(jsonObj).myMap
 for(val in map) {
-   ... your logic here ...
+   val.key // returns String
+   val.value // returns dpmJson wrapper of value
 }
 ```
-With Groovy's List iterators:
+
+With Groovy's iterators:
 ```
 def map = dpmJson(jsonObj).myMap
 map.each { it -> println(it) } // Iterate over all elements in list. For multiline logic in lambda
