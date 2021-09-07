@@ -609,6 +609,50 @@ class SpinJsonNodeProxyTest {
         assertEquals([1, 2], obj.value())
     }
 
+    @Test
+    //TODO add more tests
+    void testFindAll() {
+        def obj = [
+                Max: [
+                        lastName: "Muster",
+                        id: 34577,
+                        hasPets: false,
+                        carBrand: "VW"
+                ],
+                Anna: [
+                        lastName: "Beispiel",
+                        id: 12356,
+                        hasPets: true
+                ],
+                Henry: [
+                        lastName: "West",
+                        id: 99348,
+                        hasPets: false,
+                        carBrand: "Ferrari"
+                ],
+                Farid: [
+                        lastName: "Al-Shami",
+                        id: 16528,
+                        hasPets: false,
+                        carBrand: "Mercedes"
+                ],
+                Chiara: [
+                        lastName: "Bernasconi",
+                        id: 93678,
+                        hasPets: true,
+                        carBrand: "Audi"
+                ],
+                Celine: [
+                        lastName: "Foster",
+                        id: 26735,
+                        hasPets: true,
+                        carBrand: "Jaguar"
+                ]
+        ]
+        def people = dpmJson(obj)
+        people = people.findAll { it.value.carBrand.exists() }
+        assertEquals(5, people.size())
+    }
 
     private String mapToJsonString(Map map) {
         if (map == null || map.size() == 0) {

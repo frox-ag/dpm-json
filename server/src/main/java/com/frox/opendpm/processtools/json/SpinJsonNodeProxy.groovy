@@ -8,6 +8,7 @@ import org.camunda.spin.impl.json.jackson.JacksonJsonLogger
 import org.camunda.spin.impl.json.jackson.JacksonJsonNode
 import org.camunda.spin.json.SpinJsonNode
 import org.codehaus.groovy.reflection.CachedField
+import spinjar.com.fasterxml.jackson.annotation.JsonIgnore
 import spinjar.com.fasterxml.jackson.databind.JsonNode
 
 class SpinJsonNodeProxy extends JacksonJsonNode implements Iterable, Comparable<SpinJsonNodeProxy> {
@@ -743,6 +744,7 @@ class SpinJsonNodeProxy extends JacksonJsonNode implements Iterable, Comparable<
         return JsonProxyUtils.wrap(result)
     }
 
+    @JsonIgnore
     IntRange getIndices() {
         if (isList()) {
             return getWrappedList().getIndices()
