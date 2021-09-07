@@ -28,7 +28,7 @@ S(JSON.stringify(filteredList))
    </td>
     <td>
       <pre><code>
-dpmJson(myList).findAll{it % 2 == 0}
+dpmJson(myList).findAll{it.value() % 2 == 0}
 // returns [0, 2]
         </code>
       </pre>
@@ -284,7 +284,6 @@ With Groovy's iterators:
 def map = dpmJson(jsonObj).myMap
 map.each { it -> println(it) } // Iterate over all elements in list. For multiline logic in lambda
 map.each { println(it) } // static lambda declaration, where 'it' is implicitly the iteratee. Suggested for single line scripts
-map.eachWithIndex { it, i -> println(it.value); println(it.key); println(i); } // iteration with additional index variable
 map.collect { it.myKey.value() } // remaps the Map with the defined logic. 
 map.sort{ it.number.value() } // Sorts map in descending order. 
 map.find { it.value() % 2 == 0 } // finds first element for which the given lambda returns true. 
