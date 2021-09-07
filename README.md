@@ -1,9 +1,9 @@
 # dpm-json
 Json handling and manipulation tool for easy use in Camunda scripts with [Groovy](https://groovy-lang.org/syntax.html). All dpmJson functions can be accessed after wrapping a JSON-String, a Map, a List or a Camunda-Spin object with dpmJson.read(myObject). The returned object is a wrapped Camunda-spin variable with additional functions.
 
-Below a example of the same logic written in Javascript with Spin and with Groovy-dpmJson. Both examples return a list containing all even numbers of the following list:
+Below a example of the same logic written in Javascript with Spin and with Groovy-dpmJson. Both examples return a list containing all even numbers of the following list called *myList*:
 ```
-def myList = [0, 1, 2, 3]
+[0, 1, 2, 3]
 ```
 
 <table border="0">
