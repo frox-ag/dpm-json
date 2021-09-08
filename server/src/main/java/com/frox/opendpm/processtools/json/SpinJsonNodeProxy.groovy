@@ -332,7 +332,7 @@ class SpinJsonNodeProxy extends JacksonJsonNode implements Iterable, Comparable<
     }
 
     SpinJsonNodeProxy grep(Object filter) {
-        return JsonProxyUtils.wrap(super.grep(filter))
+        return JsonProxyUtils.wrap(getWrappedElements().grep(filter))
     }
 
     List<SpinJsonNodeProxy> toList() {
@@ -368,16 +368,16 @@ class SpinJsonNodeProxy extends JacksonJsonNode implements Iterable, Comparable<
     }
 
     SpinJsonNodeProxy collect() {
-        return JsonProxyUtils.wrap(super.collect())
+        return JsonProxyUtils.wrap(getWrappedElements().collect())
     }
 
     SpinJsonNodeProxy collect(Closure transform) {
-        def result = super.collect transform
+        def result = getWrappedElements().collect transform
         return JsonProxyUtils.wrap(result)
     }
 
     SpinJsonNodeProxy collect(Collection collector, Closure transform) {
-        return JsonProxyUtils.wrap(super.collect(collector, transform))
+        return JsonProxyUtils.wrap(getWrappedElements().collect(collector, transform))
     }
 
     SpinJsonNodeProxy collectNested(Closure transform) {
@@ -439,12 +439,12 @@ class SpinJsonNodeProxy extends JacksonJsonNode implements Iterable, Comparable<
     }
 
     SpinJsonNodeProxy findAll() {
-        def result = super.findAll()
+        def result = getWrappedElements().findAll()
         return JsonProxyUtils.wrap(result)
     }
 
     SpinJsonNodeProxy findAll(Closure closure) {
-        def result = super.findAll closure
+        def result = getWrappedElements().findAll closure
         return JsonProxyUtils.wrap(result)
     }
 
@@ -555,7 +555,7 @@ class SpinJsonNodeProxy extends JacksonJsonNode implements Iterable, Comparable<
     }
 
     SpinJsonNodeProxy split(Closure closure) {
-        def result = super.split closure
+        def result = getWrappedElements().split closure
         return JsonProxyUtils.wrap(result)
     }
 
@@ -648,12 +648,12 @@ class SpinJsonNodeProxy extends JacksonJsonNode implements Iterable, Comparable<
     }
 
     SpinJsonNodeProxy inject(Closure closure) {
-        def result = super.inject closure
+        def result = getWrappedElements().inject closure
         return JsonProxyUtils.wrap(result)
     }
 
     SpinJsonNodeProxy inject(Object initialValue, Closure closure) {
-        def result = super.inject(JsonProxyUtils.wrap(initialValue), closure)
+        def result = getWrappedElements().inject(JsonProxyUtils.wrap(initialValue), closure)
         return JsonProxyUtils.wrap(result)
     }
 

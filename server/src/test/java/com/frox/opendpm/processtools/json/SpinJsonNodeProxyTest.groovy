@@ -612,46 +612,28 @@ class SpinJsonNodeProxyTest {
     @Test
     //TODO add more tests
     void testFindAll() {
-        def obj = [
-                Max: [
-                        lastName: "Muster",
-                        id: 34577,
-                        hasPets: false,
-                        carBrand: "VW"
-                ],
-                Anna: [
-                        lastName: "Beispiel",
-                        id: 12356,
-                        hasPets: true
-                ],
-                Henry: [
-                        lastName: "West",
-                        id: 99348,
-                        hasPets: false,
-                        carBrand: "Ferrari"
-                ],
-                Farid: [
-                        lastName: "Al-Shami",
-                        id: 16528,
-                        hasPets: false,
-                        carBrand: "Mercedes"
-                ],
-                Chiara: [
-                        lastName: "Bernasconi",
-                        id: 93678,
-                        hasPets: true,
-                        carBrand: "Audi"
-                ],
-                Celine: [
-                        lastName: "Foster",
-                        id: 26735,
-                        hasPets: true,
-                        carBrand: "Jaguar"
-                ]
-        ]
-        def people = dpmJson(obj)
+        def people = dpmJson(TEST_PEOPLE_MAP)
         people = people.findAll { it.value.carBrand.exists() }
         assertEquals(5, people.size())
+    }
+
+    @Test
+    void testUseCase1() {
+        def result = [:]
+        def people = dpmJson(TEST_PEOPLE_MAP)
+        people = people.findAll { it.value.carBrand.exists() }
+        people.each { it ->
+            def carBrand = it.value.carBrand.value()
+            def firstName = it.key
+            result[carBrand] = firstName
+        }
+        assertEquals(5, people.size())
+        assertTrue(people.Max.exists())
+        assertFalse(people.Anna.exists())
+        assertEquals(5, result.size())
+        def firstKey = TEST_PEOPLE_MAP.keySet().iterator().next()
+        assertEquals(firstKey, result[TEST_PEOPLE_MAP[firstKey].carBrand])
+
     }
 
     private String mapToJsonString(Map map) {
@@ -748,4 +730,42 @@ class SpinJsonNodeProxyTest {
                     "}";
         }
     }
+
+    private static final TEST_PEOPLE_MAP = [
+            Max   : [
+                    lastName: "Muster",
+                    id      : 34577,
+                    hasPets : false,
+                    carBrand: "VW"
+            ],
+            Anna  : [
+                    lastName: "Beispiel",
+                    id      : 12356,
+                    hasPets : true
+            ],
+            Henry : [
+                    lastName: "West",
+                    id      : 99348,
+                    hasPets : false,
+                    carBrand: "Ferrari"
+            ],
+            Farid : [
+                    lastName: "Al-Shami",
+                    id      : 16528,
+                    hasPets : false,
+                    carBrand: "Mercedes"
+            ],
+            Chiara: [
+                    lastName: "Bernasconi",
+                    id      : 93678,
+                    hasPets : true,
+                    carBrand: "Audi"
+            ],
+            Celine: [
+                    lastName: "Foster",
+                    id      : 26735,
+                    hasPets : true,
+                    carBrand: "Jaguar"
+            ]
+    ]
 }

@@ -18,10 +18,13 @@ class JsonProxyUtils {
             return (SpinJsonNodeProxy) obj
         }
         if (obj instanceof Collection && !obj.isEmpty() && obj.iterator().next() instanceof SpinJsonNodeProxy) {
-            def result = new SpinJsonNodeProxy(Spin.JSON("[]"));
-            for (Object o : (Collection) obj) {
-                result.push(wrap(o))
-            }
+            def result = new SpinJsonNodeProxy(Spin.JSON("[]"))
+            obj.each { result.push(it) }
+            return result
+        }
+        if (obj instanceof Map && !obj.isEmpty() && obj.iterator().next().value instanceof SpinJsonNodeProxy) {
+            def result = new SpinJsonNodeProxy(Spin.JSON("{}"))
+            obj.each { result.putAt(it.key, it.value) }
             return result
         }
         if (obj == null || obj instanceof String && StringUtils.isEmpty((String) obj)) {
