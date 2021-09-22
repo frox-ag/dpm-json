@@ -71,8 +71,7 @@
 
 // Your code starts here
 
-def people = dpmJson(people)
-result = people
+result = dpmJson(people)
  .findAll { it.hasPets.value() }
  .sort { it.id.value() }
  .collect { it.firstName }
@@ -93,9 +92,9 @@ result</bpmn:script>
 
 def cars = people
  .findAll { it.carBrand.exists() }
- .collect { it2 -&gt; it2.carBrand.value() }
-def people = dpmJson(people)
-result =  people.each { it.allCarBrands = cars }
+ .collect { it -&gt; it.carBrand.value() }
+result = dpmJson(people)
+ .each { it.allCarBrands = cars }
 
 // Your code ends here
 
