@@ -109,8 +109,7 @@ result</bpmn:script>
 
 // Your code starts here
 
-def people = dpmJson(people)
-result = people
+result = dpmJson(people)
  .find { !it.carBrand.exists() }
  .hasPets.value()
 
