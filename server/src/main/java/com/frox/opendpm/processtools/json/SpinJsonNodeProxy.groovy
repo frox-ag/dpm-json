@@ -11,6 +11,13 @@ import org.codehaus.groovy.reflection.CachedField
 import spinjar.com.fasterxml.jackson.annotation.JsonIgnore
 import spinjar.com.fasterxml.jackson.databind.JsonNode
 
+/**
+ * Wrapper, which provides null-safe access to properties and field of the input object. Functionality based on Groovy script metaprogramming.
+ * Extends {@link org.camunda.spin.impl.json.jackson.JacksonJsonNode} as the easiest way of using as variable inside Camunda processes.
+ * Overrides most of methods of {@link org.codehaus.groovy.runtime.DefaultGroovyMethodsSupport} supported for {@link java.util.List} and {@link java.util.Map}
+ *
+ * @author <a href="mailto:opendpm@frox.ch">Open Dpm</a>
+ */
 class SpinJsonNodeProxy extends JacksonJsonNode implements Iterable, Comparable<SpinJsonNodeProxy> {
 
     JacksonJsonLogger LOG = JacksonJsonLogger.JSON_TREE_LOGGER

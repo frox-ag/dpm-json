@@ -6,6 +6,11 @@ import org.camunda.spin.Spin
 import org.camunda.spin.SpinFactory
 import org.camunda.spin.json.SpinJsonNode
 
+/**
+ * Provide utils methods, used for creation and property accessing of the wrapped object
+ *
+ * @author <a href="mailto:opendpm@frox.ch">Open Dpm</a>
+ */
 class JsonProxyUtils {
 
     public static final String ARRAY_INDEX_PATTERN = /\[(.*?)\]/

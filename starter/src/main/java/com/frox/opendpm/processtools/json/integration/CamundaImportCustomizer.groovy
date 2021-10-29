@@ -15,11 +15,16 @@ import org.springframework.stereotype.Component
 
 import javax.script.ScriptEngine
 
+/**
+ * Register static import with alias in the Camunda Groovy script engine
+ *
+ * @author <a href="mailto:opendpm@frox.ch">Open Dpm</a>
+ */
 @Component
 class CamundaImportCustomizer {
 
-    protected static final String IMPORT_ALIAS = 'dpmJson'
-    protected static final String GROOVY_SCRIPTING_LANGUAGE = 'groovy'
+    private static final String IMPORT_ALIAS = 'dpmJson'
+    private static final String GROOVY_SCRIPTING_LANGUAGE = 'groovy'
 
     private final ProcessEngineFactoryBean processEngineFactory;
 

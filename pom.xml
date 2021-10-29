@@ -15,6 +15,43 @@
   <version>1.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <name>dpm-json</name>
+  <description>Json handling and manipulation tool for easy use in Camunda scripts with Groovy</description>
+  <url>https://github.com/frox-ag/dpm-json</url>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Open Dpm</name>
+      <email>opendpm@frox.ch</email>
+      <organization>FROX AG</organization>
+      <organizationUrl>https://www.frox.ch</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/frox-ag/dpm-json.git</connection>
+    <developerConnection>scm:git:ssh://github.com:frox-ag/dpm-json.git</developerConnection>
+    <url>https://github.com/frox-ag/dpm-json/tree/master</url>
+  </scm>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://artifactory.noser.com/artifactory/frox-dpm-snapshot-local</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://artifactory.noser.com/artifactory/frox-dpm-release-local</url>
+    </repository>
+  </distributionManagement>
+
   <properties>
     <java.version>11</java.version>
     <camunda.version>7.14.0</camunda.version>
@@ -53,6 +90,96 @@
     </dependencies>
   </dependencyManagement>
 
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>groovydoc</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <taskdef name="groovydoc"
+                      classname="org.codehaus.groovy.ant.Groovydoc"
+                      classpathref="maven.compile.classpath"
+                    />
+                    <groovydoc destdir="${project.build.directory}/apidocs"
+                      sourcepath="${basedir}/src/main/java" use="true"
+                      windowtitle="${project.name}"
+                      doctitle="${project.name}"
+                    />
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>${groovy.all.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <excludePackageNames>*</excludePackageNames>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+                <configuration>
+                  <gpgArguments>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
