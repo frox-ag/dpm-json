@@ -12,7 +12,7 @@
 
   <groupId>com.frox.opendpm</groupId>
   <artifactId>dpm-json</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0</version>
   <packaging>pom</packaging>
 
   <name>dpm-json</name>
@@ -44,11 +44,11 @@
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
-      <url>https://artifactory.noser.com/artifactory/frox-dpm-snapshot-local</url>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
     </snapshotRepository>
     <repository>
       <id>ossrh</id>
-      <url>https://artifactory.noser.com/artifactory/frox-dpm-release-local</url>
+      <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
 
