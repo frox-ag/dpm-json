@@ -53,24 +53,20 @@ dpmJson(myList).findAll{it.value() % 2 == 0}
 
 ## Get started
 
-For projects using [Camunda as a Springboot application](https://docs.camunda.org/get-started/spring-boot/) you can clone this repository
-and build it with maven. Then add it to your pom.xml dependencies as follows:
+dpm-json is deployed to maven central. 
 
+Hence, simply configure the maven dependency in your pom.xml as stated below and you are ready to use it:
 ```
             <dependencies>
                 ...
                 <dependency>
                     <groupId>com.frox.opendpm</groupId>
                     <artifactId>dpm-json-starter</artifactId>
-                    <version>1.0.0</version>
+                    <version>1.1.0</version>
                 </dependency>
                 ...
             </dependencies>
 ```
-
-For projects that use the [Camunda Platform run](https://camunda.com/download/) you can either build this repository locally with your maven
-instance or download [the the latest release here](distrib/dpm-json-1.0.0.jar). Then you will have to paste your built jar file into {your
-Camunda Distribution}\configuration\userlib.
 
 ## Usage
 
